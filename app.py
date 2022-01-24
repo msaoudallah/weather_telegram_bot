@@ -4,6 +4,9 @@ from flask import Flask, request
 import telegram
 from telebot.credentials import bot_token, bot_user_name,  URL
 import requests
+from requests.exceptions import HTTPError
+
+
 
 global bot
 global TOKEN
@@ -37,16 +40,37 @@ def respond():
         bot.sendMessage(chat_id=chat_id, text=bot_welcome,reply_to_message_id = msg_id)
         
     else:
+
         try:
             text = re.sub(r'\W','_',text)
             url = "https://goweather.herokuapp.com/weather/{}".format(text)
-            r = requests.get(url)
-            temp = r.text
-        
+            response = requests.get(url)
+            response.raise_for_status()
+            # access JSOn content
+            jsonResponse = response.json()
+            day1temp = jsonResponse.forecast[0].temprature
+            day2temp = jsonResponse.forecast[1].temprature
+            day3temp = jsonResponse.forecast[2].temprature
+
+            text = '''
+            Day 1 Temp: {}
+            Day 2 Temp: {}
+            Day 3 Temp: {}            
+            '''.format(day1temp,day2temp,day3temp) if day1temp != '' else "no city with this name"
+            # print("Entire JSON response")
+            # print(jsonResponse)        
             
-            bot.sendMessage(chat_id=chat_id, text=temp,reply_to_message_id = msg_id)
-        except Exception:
-            bot.sendMessage(chat_id=chat_id, text="there is no city with this name, or service is down", reply_to_message_id= msg_id)
+            bot.sendMessage(chat_id=chat_id, text=jsonResponse,reply_to_message_id = msg_id)
+            
+            
+
+
+        except HTTPError as http_err:
+            print(f'HTTP error occurred: {http_err}')
+        except Exception as err:
+            print(f'Other error occurred: {err}')    
+            
+        
     return 'ok'
 
 

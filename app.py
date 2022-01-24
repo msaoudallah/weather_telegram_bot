@@ -19,7 +19,7 @@ app = Flask(__name__)
 @app.route('/{}'.format(TOKEN) , methods=['POST'])
 def respond():
     update = telegram.Update.de_json(request.get_json(force=True),bot)
-    
+    print("123")
     chat_id = update.message.chat_id
     msg_id = update.message.message_id
     

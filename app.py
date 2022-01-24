@@ -32,16 +32,16 @@ def respond():
         please enter city name to get weather info
         '''
         
-        bot.send_message(chat_id=chat_id, text=bot_welcome,reply_to_message_id = msg_id)
+        bot.sendMessage(chat_id=chat_id, text=bot_welcome,reply_to_message_id = msg_id)
         
     else:
         try:
             text = re.sub(r'\W','_',text)
             url = "https://goweather.herokuapp.com/weather/{}".format(text)
             
-            bot.send_message(chat_id=chat_id, text=url,reply_to_message_id = msg_id)
+            bot.sendMessage(chat_id=chat_id, text=url,reply_to_message_id = msg_id)
         except Exception:
-            bot.send_message(chat_id=chat_id, text="there is no city with this name, or service is down", reply_to_message_id= msg_id)
+            bot.sendMessage(chat_id=chat_id, text="there is no city with this name, or service is down", reply_to_message_id= msg_id)
     return 'ok'
 
 

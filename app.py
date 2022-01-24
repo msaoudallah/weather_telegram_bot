@@ -1,4 +1,5 @@
 ## imports
+import re
 from flask import Flask, request
 import telegram
 from telebot.credentials import bot_token, bot_user_name,  URL
@@ -16,7 +17,7 @@ app = Flask(__name__)
 
 
 
-@app.route('/{}'.format(TOKEN) , methods=['POST'])
+@app.route('/{}'.format(TOKEN) , methods=['GET','POST'])
 def respond():
     update = telegram.Update.de_json(request.get_json(force=True),bot)
     print("123")

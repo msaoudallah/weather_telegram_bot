@@ -3,6 +3,7 @@ import re
 from flask import Flask, request
 import telegram
 from telebot.credentials import bot_token, bot_user_name,  URL
+import requests
 
 global bot
 global TOKEN
@@ -39,8 +40,11 @@ def respond():
         try:
             text = re.sub(r'\W','_',text)
             url = "https://goweather.herokuapp.com/weather/{}".format(text)
+            r = requests.get(url)
+            temp = r.text
+        
             
-            bot.sendMessage(chat_id=chat_id, text=url,reply_to_message_id = msg_id)
+            bot.sendMessage(chat_id=chat_id, text=temp,reply_to_message_id = msg_id)
         except Exception:
             bot.sendMessage(chat_id=chat_id, text="there is no city with this name, or service is down", reply_to_message_id= msg_id)
     return 'ok'

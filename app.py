@@ -48,9 +48,9 @@ def respond():
             response.raise_for_status()
             # access JSOn content
             jsonResponse = response.json()
-            day1temp = jsonResponse['forecast'][0]['temprature']
-            day2temp = jsonResponse['forecast'][1]['temprature'] 
-            day3temp = jsonResponse['forecast'][2]['temprature']
+            day1temp = jsonResponse['forecast'][0]['temperature']
+            day2temp = jsonResponse['forecast'][1]['temperature'] 
+            day3temp = jsonResponse['forecast'][2]['temperature']
 
             text = '''
             Day 1 Temp: {}
@@ -59,7 +59,7 @@ def respond():
             '''.format(day1temp,day2temp,day3temp) if day1temp != '' else "no city with this name"
    
             
-            bot.sendMessage(chat_id=chat_id, text=jsonResponse,reply_to_message_id = msg_id)
+            bot.sendMessage(chat_id=chat_id, text=text,reply_to_message_id = msg_id)
             
             
 

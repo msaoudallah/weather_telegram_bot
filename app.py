@@ -47,7 +47,7 @@ def respond():
 
 @app.route('/setwebhook', methods=['GET', 'POST'])
 def set_webhook():
-    s = bot.setWebhook('{URL}{HOOK}'.format(URL=URL, HOOk=TOKEN))
+    s = bot.setWebhook('{URL}{HOOK}'.format(URL=URL))
     if s:
         return 'webhook is ok'
     else:
@@ -58,7 +58,7 @@ def set_webhook():
 
 @app.route('/')
 def index():
-    return '.'
+    return 'app is running'
 
 
 if __name__=="__main__":
